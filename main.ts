@@ -128,4 +128,11 @@ namespace hackathon {
     export function setSpeed(speed: number) {
         robot.speedMultiplyer = speed;
     }
+    //% block="detect pickup"
+    export function detectPickup():boolean{
+        if(pins.analogReadPin(AnalogPin.P0)<300){
+            return true
+        }
+        return false
+    }
 }
