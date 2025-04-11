@@ -135,4 +135,8 @@ namespace hackathon {
         }
         return false
     }
+    //% block="detect current"
+    export function detectCurrent(){
+        return pins.analogReadPin(AnalogPin.P1)
+    }
 }
