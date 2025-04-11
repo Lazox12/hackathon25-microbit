@@ -130,7 +130,7 @@ namespace hackathon {
     }
     //% block="detect pickup"
     export function detectPickup():boolean{
-        if(pins.analogReadPin(AnalogPin.P0)<300){
+        if(pins.analogReadPin(AnalogPin.P0)<900){
             return true
         }
         return false
