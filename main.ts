@@ -1,7 +1,7 @@
 //% color="#AA278D" weight=100
-namespace hello {
+namespace hackathon {
     //% block
-    export function test() {
+    export function move() {
 
     }
 }
