@@ -171,9 +171,5 @@ namespace hackathon {
             serial.writeLine("")
             basic.pause(10)
         }
-        while (true) {
-            serial.writeLine("aa")
-        }
-
     }
 }
