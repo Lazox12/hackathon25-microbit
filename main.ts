@@ -19,24 +19,27 @@ namespace hackathon {
         speedMultiplyer: number
         delay: number
         angles: number[] = [];
-        constructor(address: number = 64, speedMultiplyer: number = 0.5, delay: number = 100) {
+        constructor(address: number = 64, speedMultiplyer: number = 1, delay: number = 100) {
             this.speedMultiplyer = speedMultiplyer;
             this.delay = delay;
             this.address = address;
             
             this.home()
             
+            
         }
-        public home(){
-            this.homeAxis(2)
-            this.homeAxis(3)
-            this.homeAxis(4)
-            this.homeAxis(1)
-            this.homeAxis(6)
+        public home():void{
+            this.homeAxis(2);
+            this.homeAxis(3);
+            this.homeAxis(4);
+            this.homeAxis(1);
+            this.homeAxis(6);
         }
-        public homeAxis(axis:number){
-            robot.setAngle(axis,this.homePos[axis] as number)
-            basic.pause(100)
+        public homeAxis(axis:number):void{
+            this.setAngle(axis,this.homePos[axis-1])
+
+            serial.writeNumber(axis)
+            basic.pause(5000)
         }
         public move(x: number, y: number, z: number) {
             this.x, this.y, this.z = x, y, z;
@@ -95,11 +98,11 @@ namespace hackathon {
             setAngle(4, r5);
         }
         public setAngle(servo: number, target: number) {
-            if (target < this.limitLow[servo]) {
-                target = this.limitLow[servo]
+            if (target < this.limitLow[servo-1]) {
+                target = this.limitLow[servo-1]
             }
-            if (target > this.limitHigh[servo]) {
-                target = this.limitHigh[servo]
+            if (target > this.limitHigh[servo-1]) {
+                target = this.limitHigh[servo-1]
             }
             let lastAngle: number = this.angles[servo as number];
             this.angles[servo as number] = target;
