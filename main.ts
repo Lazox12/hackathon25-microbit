@@ -6,7 +6,16 @@ enum ServoNum {
     ServoNum4 = 4,
     ServoNum5 = 5
 }
+
 namespace hackathon {
+    function calculateAverage(arr: number[]) {
+        let sum = 0;
+        for (let i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        }
+        return sum / arr.length;
+    }
+
     class Robot {
         x: number
         y: number
@@ -136,7 +145,7 @@ namespace hackathon {
     }
     //% block="detekce chytnutí"
     export function detectCurrent():boolean {
-        if (pins.analogReadPin(AnalogPin.P1) < 200) {
+        if (pins.analogReadPin(AnalogPin.P1) < 650) {
             return true
         }
         return false
@@ -144,10 +153,26 @@ namespace hackathon {
 
     //% block="uchyť kostku"
     export function grabCube(){
-        robot.setAngle(5,180);
-        while(!detectCurrent()){
-            robot.setAngle(5,robot.angles[5]-1)
+        robot.setAngle(5, 128)
+        basic.pause(100)
+        let i = 128
+        let avr: number[] = [];
+        while (i>=0) {
+            robot.setAngle(5, i--)
+            avr.push(pins.analogReadPin(AnalogPin.P1));
+            if (avr.length > 20) {
+                avr.removeAt(0);
+            }
+            let avrCurrent = calculateAverage(avr);
+            if (avrCurrent >650){
+                break;
+            };
+            serial.writeNumber(avrCurrent);
+            serial.writeLine("")
             basic.pause(10)
+        }
+        while (true) {
+            serial.writeLine("aa")
         }
 
     }
