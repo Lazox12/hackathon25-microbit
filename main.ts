@@ -8,6 +8,10 @@ namespace hackathon {
     }
 
     class Robot {
+        limitLow: number[] = [0,0,100]
+        limitHigh: number[] = [180,110,]
+        homePos:number[] = []
+        inverse: number[] = [0, 1,]
         x: number
         y: number
         z: number
@@ -77,6 +81,12 @@ namespace hackathon {
             setAngle(4, r5);
         }
         public setAngle(servo: number, target: number) {
+            if (target < this.limitLow[servo]) {
+                target = this.limitLow[servo]
+            }
+            if (target > this.limitHigh[servo]) {
+                target = this.limitHigh[servo]
+            }
             let lastAngle: number = this.angles[servo as number];
             this.angles[servo as number] = target;
             if (this.speedMultiplyer == 1) {
@@ -135,7 +145,7 @@ namespace hackathon {
         return false
     }
     //% block="detekce chytnutí"
-    export function detectCurrent():boolean {
+    export function detectCurrent(): boolean {
         if (pins.analogReadPin(AnalogPin.P1) < 650) {
             return true
         }
@@ -143,12 +153,12 @@ namespace hackathon {
     }
 
     //% block="uchyť kostku"
-    export function grabCube(){
+    export function grabCube() {
         robot.setAngle(6, 128)
         basic.pause(100)
         let k = 128
         let avr: number[] = [];
-        while (k>=0) {
+        while (k >= 0) {
             robot.setAngle(6, k--)
             avr.push(pins.analogReadPin(AnalogPin.P1));
             if (avr.length > 20) {
@@ -157,11 +167,21 @@ namespace hackathon {
             let avrCurrent = calculateAverage(avr);
             serial.writeNumber(avrCurrent);
             serial.writeLine("")
-            if (avrCurrent >650){
+            if (avrCurrent > 650) {
                 break;
             };
-            
+
             basic.pause(10)
+        }
+    }
+    //% block="pusť kostku"
+    export function releaseCube(){
+        robot.setAngle(6, 128)
+    }
+    //% block="kalibrační pozice"
+    export function GoToHome(){
+        for(let i = 0;i<6;i++){
+            robot.setAngle(i,robot.homePos[i])
         }
     }
 }
