@@ -6,7 +6,6 @@ enum ServoNum {
     ServoNum4 = 4,
     ServoNum5 = 5
 }
-//% color=190 weight=100 icon="\uf1ec" block="Robotické Rameno"
 namespace hackathon {
     class Robot {
         x: number
@@ -136,7 +135,19 @@ namespace hackathon {
         return false
     }
     //% block="detekce chytnutí"
-    export function detectCurrent() {
-        return pins.analogReadPin(AnalogPin.P1)
+    export function detectCurrent():boolean {
+        if (pins.analogReadPin(AnalogPin.P1) < 200) {
+            return true
+        }
+        return false
+    }
+
+    //% block="uchyť kostku"
+    export function grabCube(){
+        while(!detectCurrent()){
+            robot.setAngle(5,robot.angles[5]-1)
+            basic.pause(1)
+        }
+
     }
 }
