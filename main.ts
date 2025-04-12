@@ -146,7 +146,7 @@ namespace hackathon {
     export function grabCube(){
         while(!detectCurrent()){
             robot.setAngle(5,robot.angles[5]-1)
-            basic.pause(1)
+            basic.pause(10)
         }
 
     }
