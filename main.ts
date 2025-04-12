@@ -35,7 +35,7 @@ namespace hackathon {
             this.homeAxis(6)
         }
         public homeAxis(axis:number){
-            robot.setAngle(axis,this.homePos[axis])
+            robot.setAngle(axis,this.homePos[axis] as number)
             basic.pause(100)
         }
         public move(x: number, y: number, z: number) {
