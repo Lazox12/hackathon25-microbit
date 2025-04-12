@@ -1,11 +1,3 @@
-enum ServoNum {
-    ServoNum0 = 0,
-    ServoNum1 = 1,
-    ServoNum2 = 2,
-    ServoNum3 = 3,
-    ServoNum4 = 4,
-    ServoNum5 = 5
-}
 
 namespace hackathon {
     function calculateAverage(arr: number[]) {
@@ -85,7 +77,7 @@ namespace hackathon {
             setAngle(3, r4);
             setAngle(4, r5);
         }
-        public setAngle(servo: ServoNum, target: number) {
+        public setAngle(servo: number, target: number) {
             let lastAngle: number = this.angles[servo as number];
             this.angles[servo as number] = target;
             if (this.speedMultiplyer == 1) {
@@ -124,7 +116,7 @@ namespace hackathon {
         return robot.z;
     }
     //% block="získat úhel|servo: $servo"
-    export function getAngle(servo: ServoNum): number {
+    export function getAngle(servo: number): number {
         return robot.angles[servo as number];
     }
     //% block="nastavit i2c adresu|address: $address"
@@ -153,12 +145,12 @@ namespace hackathon {
 
     //% block="uchyť kostku"
     export function grabCube(){
-        robot.setAngle(5, 128)
+        robot.setAngle(6, 128)
         basic.pause(100)
         let i = 128
         let avr: number[] = [];
         while (i>=0) {
-            robot.setAngle(5, i--)
+            robot.setAngle(6, i--)
             avr.push(pins.analogReadPin(AnalogPin.P1));
             if (avr.length > 20) {
                 avr.removeAt(0);
