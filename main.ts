@@ -8,10 +8,10 @@ namespace hackathon {
     }
 
     class Robot {
-        limitLow: number[] = [0,0,100]
-        limitHigh: number[] = [180,110,]
-        homePos:number[] = []
-        inverse: number[] = [0, 1,]
+        limitLow: number[] = [60,0,70,30,0,0]
+        limitHigh: number[] = [180,110,180,140,0,180]
+        homePos:number[] = [130,60,60,30,0,180]
+        inverse: number[] = [0,0,1,1,0,0]
         x: number
         y: number
         z: number
@@ -19,10 +19,24 @@ namespace hackathon {
         speedMultiplyer: number
         delay: number
         angles: number[] = [];
-        constructor(address: number = 64, speedMultiplyer: number = 1, delay: number = 100) {
+        constructor(address: number = 64, speedMultiplyer: number = 0.5, delay: number = 100) {
             this.speedMultiplyer = speedMultiplyer;
             this.delay = delay;
             this.address = address;
+            
+            this.home()
+            
+        }
+        public home(){
+            this.homeAxis(2)
+            this.homeAxis(3)
+            this.homeAxis(4)
+            this.homeAxis(1)
+            this.homeAxis(6)
+        }
+        public homeAxis(axis:number){
+            robot.setAngle(axis,this.homePos[axis])
+            basic.pause(100)
         }
         public move(x: number, y: number, z: number) {
             this.x, this.y, this.z = x, y, z;
