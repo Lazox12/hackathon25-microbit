@@ -1,4 +1,3 @@
-
 namespace hackathon {
     function calculateAverage(arr: number[]) {
         let sum = 0;
@@ -23,11 +22,11 @@ namespace hackathon {
         }
         public move(x: number, y: number, z: number) {
             this.x, this.y, this.z = x, y, z;
-            const a = 30 //délka první část
-            const b = 20 //délka druhé části
+            const a = 125.6 //délka první část
+            const b = 177 //délka druhé části
             const o = 30 //offset středu soustavy oproti středu robota
-            const p = 10 //výška postavy oproti pracovní ploše
-            const e = 5  //vzálenost POI od posedního kloubu
+            const p = 69.5 //výška postavy oproti pracovní ploše
+            const e = 165  //vzálenost POI od posedního kloubu
             const c = Math.sqrt((x ** 2) + ((o - y) ** 2) + ((z + e - p) ** 2));
             //console.log(c)
 
@@ -86,7 +85,7 @@ namespace hackathon {
             }
             const itnum: number = (Math.round(1 - this.speedMultiplyer) * 100 + 1);
             let angle: number = (lastAngle - target) / itnum;
-            for (let i: number = 0; i < itnum; i++) {
+            for (let j: number = 0; j < itnum; j++) {
                 PCA9685.setServoPosition(servo as number, angle++, 64);
                 basic.pause(this.delay);
             }
@@ -147,20 +146,21 @@ namespace hackathon {
     export function grabCube(){
         robot.setAngle(6, 128)
         basic.pause(100)
-        let i = 128
+        let k = 128
         let avr: number[] = [];
-        while (i>=0) {
-            robot.setAngle(6, i--)
+        while (k>=0) {
+            robot.setAngle(6, k--)
             avr.push(pins.analogReadPin(AnalogPin.P1));
             if (avr.length > 20) {
                 avr.removeAt(0);
             }
             let avrCurrent = calculateAverage(avr);
+            serial.writeNumber(avrCurrent);
+            serial.writeLine("")
             if (avrCurrent >650){
                 break;
             };
-            serial.writeNumber(avrCurrent);
-            serial.writeLine("")
+            
             basic.pause(10)
         }
     }
